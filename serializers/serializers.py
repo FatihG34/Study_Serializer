@@ -5,7 +5,7 @@ from .models import Student
 
 class StudentSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=30)
-    lasr_name = serializers.CharField(max_length=30)
+    last_name = serializers.CharField(max_length=30)
     number = serializers.IntegerField(required=False)
 
     def create(self, validated_data):
