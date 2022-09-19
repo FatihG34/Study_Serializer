@@ -1,7 +1,5 @@
-from concurrent.futures.process import _chain_from_iterable_of_lists
-from dataclasses import fields
 from rest_framework import serializers
-from .models import Student
+from .models import Path, Student
 
 # 1.yöntem
 # class StudentSerializer(serializers.Serializer):
@@ -20,16 +18,29 @@ from .models import Student
 #         return instance
 
 # 2. yöntem
-class StudentSerializer(serializers.ModelSerializer):
-    full_name = serializers.SerializerMethodField()
-    number_name = serializers.SerializerMethodField()
-    class Meta:
-        model=Student
-        fields=["id","number_name","full_name", "first_name", "last_name", "number"]
 
+
+class PathSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Path
+        fields = ["id", "path_name"]
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    # full_name = serializers.SerializerMethodField()
+    # number_name = serializers.SerializerMethodField()
+    path = serializers.StringRelatedField()
+    path_id = serializers.IntegerField()
+
+    class Meta:
+        model = Student
+        fields = ["id", "path_id", "path",
+                  "first_name", "last_name", "number"]
 
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
-    
+
     def get_number_name(self, obj):
         return f"{obj.number} {obj.first_name}"
+    
+
